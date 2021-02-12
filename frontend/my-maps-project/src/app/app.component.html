@@ -1,0 +1,74 @@
+<!-- Declaring the input form for the user to enter values for fields such as origin and destination coordinates-->
+<p>
+  <mat-toolbar color="primary">
+    <span>EleNa - Elevation based Navigation</span>
+    <span class="headbar"></span>
+  </mat-toolbar>
+</p>
+      
+<div class="row">
+  <div class="col s6">
+
+    <div>
+      <label for="originLatitude">
+        Origin Latitude
+      </label>
+      <input id="originLatitude" type="text" [(ngModel)]="coordinates['originLat']" name="originLatitude">
+    </div>
+    <br>
+    <div>
+      <label for="originLongitude">
+        Origin Longitude
+      </label>
+      <input id="originLongitude" type="text" [(ngModel)]="coordinates['originLng']" name="originLongitude">
+    </div>
+    <br>
+    <div>
+      <label for="destinationLatitude">
+        Destination Latitude
+      </label>
+      <input id="destinationLatitude" type="text" [(ngModel)]="coordinates['destinationLat']" name="destinationLatitude">
+    </div>
+    <br>
+    <div>
+      <label for="destinationLongitude">
+        Destination Longitude
+      </label>
+      <input id="destinationLongitude" type="text" [(ngModel)]="coordinates['destinationLng']" name="destinationLongitude">
+    </div>
+    <br>
+    <span>Elevation Choice</span><br><br>    
+    <mat-radio-group id="elevation_choice" [(ngModel)]="elevation_choice">    
+      <mat-radio-button value="min">Min</mat-radio-button>    
+      <mat-radio-button value="max">Max</mat-radio-button>    
+    </mat-radio-group>
+    <br><br>
+    <span>Select percentage of shortest distance</span><br>
+    <mat-slider [(ngModel)]="percentage_of_shortest_distance" id="percentage_of_shortest_distance" min="0" max="100" step="1" value="1" thumbLabel tickInterval="1"></mat-slider><br>
+    <button mat-raised-button color="primary" type="submit" (click)="onGetDirectionClick()">Get direction</button>
+  <br><br>
+
+</div>
+
+<!-- The below mentioned division contains the google map with draggable markers for origin and destination coordinates -->
+<div class="col s6">
+  <agm-map [latitude]="coordinates['originLat']" [longitude]="coordinates['originLng']" [zoom] = 12>
+    <agm-marker [latitude]="coordinates['originLat']" [longitude] = "coordinates['originLng']" [markerDraggable]="true" [iconUrl] = "{url: './assets/67872.svg', scaledSize: {
+      width: 40,
+      height: 60
+  }}" (dragEnd)="setOriginCoordinates($event)">  </agm-marker>
+    <agm-marker [latitude]="coordinates['destinationLat']" [longitude] = "coordinates['destinationLng']" [markerDraggable]="true" [iconUrl] = "{url: './assets/map.svg', scaledSize: {
+      width: 40,
+      height: 60
+  }}" (dragEnd)="setDestinationCoordinates($event)">  </agm-marker>
+  <agm-marker *ngFor="let location of locations" [latitude]="location.lat" [longitude]="location.lng" [iconUrl] = "{url: './assets/circle.svg', scaledSize: {
+    width: 10,
+    height: 10
+}}"></agm-marker>  
+  </agm-map>
+  Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+  <div id="StatsDiv">
+    Statistics Division
+  </div>
+</div>
+</div>
